@@ -5,9 +5,15 @@ const Navigation = () => {
 	return (
 		<nav>
 			<ul>
-				<li>Today</li>
-				<li>Tomorrow</li>
-				<li>Week</li>
+				<li>
+					<a href="/today">Today</a>
+				</li>
+				<li>
+					<a href="/tomorrow">Tomorrow</a>
+				</li>
+				<li>
+					<a href="/week">Week</a>
+				</li>
 			</ul>
 		</nav>
 	);

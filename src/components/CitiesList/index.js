@@ -1,13 +1,26 @@
-import React, { Component } from "react";
+import React from "react";
+import "./style.css";
 
-class Header extends Component {
-	render() {
+const CitiesList = props => {
+	const articleElements = props.listSaveCity.map((city, index) => {
 		return (
-			<div className="container">
-				<h1 className="display-3"> List Save Cities </h1>
-			</div>
+			<li key={index} className="sities__item">
+				<div className="card">
+					<div className="card__header">
+						{city.city}, {city.country}
+					</div>
+					<div className="card__body">
+						Temp today {Math.round(city.temp)} {props.degrees_icon}
+					</div>
+				</div>
+			</li>
 		);
-	}
-}
+	});
+	return (
+		<ul className="cities__list" style={{ listStyle: "none" }}>
+			{articleElements}
+		</ul>
+	);
+};
 
-export default Header;
+export default CitiesList;
