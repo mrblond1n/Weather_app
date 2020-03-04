@@ -6,8 +6,11 @@ import "./style.css";
 const Header = props => {
 	return (
 		<header className="header">
-			<Navigation />
-			<SearchForm getting_weather={props.getting_weather} />
+			<Navigation
+				selected_city={props.selected_city}
+				getting_weather_week={props.getting_weather_week}
+			/>
+			<SearchForm getting_weather_input={props.getting_weather_input} />
 		</header>
 	);
 };

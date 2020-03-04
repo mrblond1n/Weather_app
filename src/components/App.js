@@ -2,7 +2,9 @@ import React, { PureComponent } from "react";
 import Header from "./Header";
 import CurrentLocation from "./CurrentLocation";
 import CitiesList from "./CitiesList";
+import CityToday from "./City/CityToday";
 import "./style.css";
+import { BrowserRouter, Route } from "react-router-dom";
 
 const API_KEY = "43d829730c7ea38b646a9f6ff087c53d";
 // const url =
@@ -18,10 +20,11 @@ class App extends PureComponent {
 			country: undefined,
 			weather: undefined,
 			error: undefined
-		}
+		},
+		listWeekWeather: []
 	};
 
-	getting_weather = async (e, currentCity = "moscow") => {
+	getting_weather_input = async (e, currentCity = "moscow") => {
 		let city;
 		if (e) {
 			e.preventDefault();
@@ -66,18 +69,69 @@ class App extends PureComponent {
 				console.log(err);
 			});
 	};
+	getting_weather = async (currentCity = "moscow") => {
+		await fetch(
+			`https://api.openweathermap.org/data/2.5/weather?q=${currentCity}&appid=${API_KEY}&units=metric`
+		)
+			.then(res => res.json())
+			.then(data => {
+				console.log(data);
+
+				this.setState({
+					currentLocation: {
+						temp: data.main.temp,
+						city: data.name,
+						country: data.sys.country,
+						weather: data.weather[0].main,
+						wind: data.wind.speed,
+						error: undefined
+					}
+				});
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+	getting_weather_week = async () => {
+		await fetch(
+			`https://api.openweathermap.org/data/2.5/forecast?q=${
+				window.location.pathname.split("/").reverse()[0]
+			}&appid=${API_KEY}&units=metric`
+		)
+			.then(res => res.json())
+			.then(data => {
+				// const currentDate = new Date().getDate();
+				let newArr = [];
+
+				for (let i in data.list) {
+					// 	if (
+					// 		Number(
+					// 			data.list[i].dt_txt
+					// 				.split(" ")[0]
+					// 				.split("-")
+					// 				.reverse()[0]
+					// 		)
+					// 	) {
+					newArr.push(data.list[i]);
+				}
+				this.setState({
+					listWeekWeather: newArr
+				});
+				console.log(this.state.listWeekWeather);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+
+	select_city = city => {
+		this.getting_weather(city);
+	};
 
 	add_city = city => {
-		// this.setState({
-		// 	listSaveCity: this.state.listSaveCity.push(this.currentLocation)
-		// });
-		console.log(city);
-
 		this.setState(prevState => ({
 			listSaveCity: [...prevState.listSaveCity, city]
 		}));
-
-		console.log(this.state.listSaveCity);
 	};
 
 	UNSAFE_componentWillMount() {
@@ -106,21 +160,51 @@ class App extends PureComponent {
 		);
 
 		return (
-			<div className="container">
-				<Header getting_weather={this.getting_weather} />
-				<main>
-					<CurrentLocation
-						weather={this.state.currentLocation}
-						degrees_icon={degrees}
-						plus_icon={plus}
-						add_city={this.add_city}
+			<BrowserRouter>
+				<div className="container">
+					<Header
+						getting_weather_week={this.getting_weather_week}
+						selected_city={this.state.currentLocation}
+						getting_weather_input={this.getting_weather_input}
 					/>
-					<CitiesList
-						listSaveCity={this.state.listSaveCity}
-						degrees_icon={degrees}
-					/>
-				</main>
-			</div>
+					<main>
+						<CurrentLocation
+							weather={this.state.currentLocation}
+							degrees_icon={degrees}
+							plus_icon={plus}
+							add_city={this.add_city}
+						/>
+						{/* <Route path="/">
+							<CitiesList
+								listSaveCity={this.state.listSaveCity}
+								degrees_icon={degrees}
+							/>
+						</Route> */}
+						<Route
+							path="/home"
+							render={props => (
+								<CitiesList
+									{...props}
+									listSaveCity={this.state.listSaveCity}
+									degrees_icon={degrees}
+									select_city={this.select_city}
+								/>
+							)}
+						/>
+						<Route
+							path="/today"
+							render={props => (
+								<CityToday
+									{...props}
+									// data={this.getting_weather_week()}
+									listToday={this.state.listWeekWeather}
+								/>
+							)}
+						/>
+						<Route path="/week" />
+					</main>
+				</div>
+			</BrowserRouter>
 		);
 	}
 }

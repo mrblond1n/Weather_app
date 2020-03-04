@@ -3,7 +3,7 @@ import "./style.css";
 
 const SearchForm = props => {
 	return (
-		<form onSubmit={props.getting_weather}>
+		<form onSubmit={props.getting_weather_input}>
 			{" "}
 			<input
 				type="text"

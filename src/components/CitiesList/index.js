@@ -4,7 +4,13 @@ import "./style.css";
 const CitiesList = props => {
 	const articleElements = props.listSaveCity.map((city, index) => {
 		return (
-			<li key={index} className="sities__item">
+			<li
+				key={index}
+				className="sities__item"
+				onClick={() => {
+					props.select_city(city.city);
+				}}
+			>
 				<div className="card">
 					<div className="card__header">
 						{city.city}, {city.country}
