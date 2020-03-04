@@ -1,10 +1,10 @@
 import React, { PureComponent } from "react";
 import Header from "./Header";
-import CurrentLocation from "./Body";
-import CitiesList from "./CitiesList";
-import CityWeek from "./City/CityWeek";
-import CityToday from "./City/CityToday";
-import CityTomorrow from "./City/CityTomorrow";
+import CurrentLocation from "./MainSection";
+import CitiesList from "./Content/SaveCityList";
+import CityWeek from "./Content/CityWeek";
+import CityToday from "./Content/CityToday";
+import CityTomorrow from "./Content/CityTomorrow";
 import { BrowserRouter, Route } from "react-router-dom";
 
 import "./style.css";

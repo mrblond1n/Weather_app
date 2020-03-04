@@ -1,10 +1,10 @@
 import React from "react";
-import WeekList from "./WeekList";
+import WeekList from "./OutputInfo/WeekList";
 
 const CityWeek = props => {
 	return (
-		<div>
-			<h1>Week</h1>
+		<div className="wrapper__inside">
+			<h3>Week</h3>
 			<WeekList list_to_week={props.list_to_week} days={"week"} />
 		</div>
 	);

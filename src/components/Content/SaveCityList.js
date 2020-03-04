@@ -22,9 +22,12 @@ const CitiesList = props => {
 		);
 	});
 	return (
-		<ul className="cities__list" style={{ listStyle: "none" }}>
-			{articleElements}
-		</ul>
+		<div className="wrapper__inside">
+			<h3>Home</h3>
+			<ul className="cities__list" style={{ listStyle: "none" }}>
+				{articleElements}
+			</ul>
+		</div>
 	);
 };
 

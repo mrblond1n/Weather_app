@@ -1,6 +1,6 @@
 import React from "react";
-import List from "./OutputInfo/List";
-import Cards from "./OutputInfo/Cards";
+import List from "./List";
+import Cards from "./Cards";
 
 const CityToday = props => {
 	let arr = [];
