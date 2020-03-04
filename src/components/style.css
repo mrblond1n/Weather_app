@@ -25,43 +25,10 @@ ul {
 }
 
 section {
+	/* padding-top: 200px; */
 	height: 50vh;
 }
-/* HEADER STYLES */
-
-.header {
-	display: flex;
-	justify-content: space-between;
-	border-bottom: 2px solid grey;
-	padding: 20px;
-	z-index: 20;
-	box-shadow: 0 0 10px 0 black;
-	position: fixed;
-	top: 0;
-	width: 100%;
-}
-
-.navigation__list {
-	display: flex;
-}
-
-.navigation__item {
-	margin: 0px 10px;
-	cursor: pointer;
-	color: #767373;
-	text-transform: uppercase;
-}
-
-.navigation__link {
-	text-decoration: none;
-	font-weight: bold;
-	opacity: 0.4;
-	color: black;
-	transition: 0.4s;
-}
-.navigation__link:hover {
-	opacity: 1;
-}
+/* INPUTS */
 
 .form__input {
 	border: none;
@@ -103,6 +70,8 @@ section {
 	transition: line-height 0.5s ease;
 }
 
+/* BUTTONS */
+
 .button {
 	padding: 5px;
 	background: transparent;
@@ -111,6 +80,7 @@ section {
 	cursor: pointer;
 	text-transform: uppercase;
 	transition: 0.4s;
+	font-weight: bold;
 }
 
 .button:hover {
@@ -122,13 +92,30 @@ section {
 	color: white;
 }
 
+.button--relative {
+	position: relative;
+	bottom: 30px;
+}
+
+/* TITLE */
+.section__title {
+	color: grey;
+	margin-bottom: 20px;
+	/* margin-bottom: 15px; */
+}
+
+.section__subtitle {
+	color: grey;
+	margin: 15px;
+}
+
 /* MAIN STYLES */
 
 .main {
-	/* margin-top: 100px; */
 	position: relative;
 	top: 0;
 	height: 100%;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
@@ -136,18 +123,30 @@ section {
 
 .container {
 	position: relative;
-	height: 100%;
+	/* height: 100%; */
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	padding: 50px 80px;
 }
-
-.current-city {
-	border-bottom: 2px solid grey;
-	position: relative;
-	/* padding-top: 100px; */
+section > .container:first-child {
+	box-shadow: inset 0 0 10px 0 black;
 }
+
+.wrapper {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.wrapper--row {
+	flex-direction: row;
+}
+
+/* MAIN CONTENT */
 
 .current-city__list {
 	list-style: none;
@@ -177,14 +176,7 @@ section {
 	font-weight: bold;
 }
 
-.add-button {
-	position: absolute;
-	top: 30%;
-	right: 20px;
-	border: none;
-	background: transparent;
-	cursor: pointer;
-}
+/* TABLE  */
 
 .table {
 	text-align: left;
@@ -201,6 +193,8 @@ section {
 	padding: 10px;
 }
 
+/* CARDS */
+
 .card__container {
 	display: flex;
 	justify-content: space-around;
@@ -209,6 +203,7 @@ section {
 .cities__list {
 	display: flex;
 	flex-wrap: wrap;
+	justify-content: center;
 }
 
 .sities__item svg {

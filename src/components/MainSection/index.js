@@ -17,7 +17,7 @@ const CurrentLocation = props => {
 				</ul>
 			)}
 			<button
-				className="add-button"
+				className="button button--relative"
 				onClick={() => {
 					props.add_city(props.weather);
 				}}

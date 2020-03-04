@@ -22,8 +22,8 @@ const CitiesList = props => {
 		);
 	});
 	return (
-		<div className="wrapper__inside">
-			<h3>Home</h3>
+		<div className="wrapper">
+			<h3 className="section__title">Saved cities</h3>
 			<ul className="cities__list" style={{ listStyle: "none" }}>
 				{articleElements}
 			</ul>

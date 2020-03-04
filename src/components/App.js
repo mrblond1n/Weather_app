@@ -202,14 +202,14 @@ class App extends PureComponent {
 					/>
 					<main className="main">
 						<section>
-							<CurrentLocation
-								weather={this.state.currentLocation}
-								degrees_icon={degrees}
-								plus_icon={plus}
-								add_city={this.add_city}
-							/>
-						</section>
-						<section>
+							<div className="container conitaner--border">
+								<CurrentLocation
+									weather={this.state.currentLocation}
+									degrees_icon={degrees}
+									plus_icon={plus}
+									add_city={this.add_city}
+								/>
+							</div>
 							<div className="container">
 								<Route
 									path="/home"
