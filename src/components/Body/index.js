@@ -1,9 +1,8 @@
 import React from "react";
-import "./style.css";
 
 const CurrentLocation = props => {
 	return (
-		<div className="current-city">
+		<div className="current-city container">
 			{props.weather.city && (
 				<ul className="current-city__list">
 					<li className="current-city__item">

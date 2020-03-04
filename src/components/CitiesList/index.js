@@ -1,8 +1,7 @@
 import React from "react";
-import "./style.css";
 
 const CitiesList = props => {
-	const articleElements = props.listSaveCity.map((city, index) => {
+	const articleElements = props.listSaveCity.slice(0, 12).map((city, index) => {
 		return (
 			<li
 				key={index}

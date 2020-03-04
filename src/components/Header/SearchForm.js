@@ -1,17 +1,17 @@
 import React from "react";
-import "./style.css";
 
 const SearchForm = props => {
 	return (
-		<form onSubmit={props.getting_weather_input}>
+		<form className="form__search" onSubmit={props.getting_weather_input}>
 			{" "}
 			<input
+				className="form__input"
 				type="text"
 				id="search_city"
 				name="city"
 				placeholder="find city..."
 			/>{" "}
-			<button>получить погоду</button>
+			<button className="button button--green">get info</button>
 		</form>
 	);
 };

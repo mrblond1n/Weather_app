@@ -1,12 +1,14 @@
 import React, { PureComponent } from "react";
 import Header from "./Header";
-import CurrentLocation from "./CurrentLocation";
+import CurrentLocation from "./Body";
 import CitiesList from "./CitiesList";
 import CityWeek from "./City/CityWeek";
 import CityToday from "./City/CityToday";
 import CityTomorrow from "./City/CityTomorrow";
-import "./style.css";
 import { BrowserRouter, Route } from "react-router-dom";
+
+import "./style.css";
+import "normalize.css";
 
 const API_KEY = "43d829730c7ea38b646a9f6ff087c53d";
 // const url =
@@ -33,7 +35,6 @@ class App extends PureComponent {
 				lat: undefined,
 				lon: undefined
 			}
-			// list: []
 		},
 		listWeekWeather: []
 	};
@@ -193,63 +194,69 @@ class App extends PureComponent {
 
 		return (
 			<BrowserRouter>
-				<div className="container">
+				<div className="wrapper">
 					<Header
 						getting_weather_week={this.getting_weather_week}
 						selected_city={this.state.currentLocation}
 						getting_weather_input={this.getting_weather_input}
 					/>
-					<main>
-						<CurrentLocation
-							weather={this.state.currentLocation}
-							degrees_icon={degrees}
-							plus_icon={plus}
-							add_city={this.add_city}
-						/>
-						<Route
-							path="/home"
-							render={props => (
-								<CitiesList
-									{...props}
-									listSaveCity={this.state.listSaveCity}
-									degrees_icon={degrees}
-									select_city={this.select_city}
+					<main className="main">
+						<section>
+							<CurrentLocation
+								weather={this.state.currentLocation}
+								degrees_icon={degrees}
+								plus_icon={plus}
+								add_city={this.add_city}
+							/>
+						</section>
+						<section>
+							<div className="container">
+								<Route
+									path="/home"
+									render={props => (
+										<CitiesList
+											{...props}
+											listSaveCity={this.state.listSaveCity}
+											degrees_icon={degrees}
+											select_city={this.select_city}
+										/>
+									)}
 								/>
-							)}
-						/>
-						<Route
-							path="/today"
-							render={props => (
-								<CityToday
-									{...props}
-									// data={this.getting_weather_week()}
-									info_to_week={this.state.infoToWeek}
-									list_to_week={this.state.listWeekWeather}
+								<Route
+									path="/today"
+									render={props => (
+										<CityToday
+											{...props}
+											// data={this.getting_weather_week()}
+											info_to_week={this.state.infoToWeek}
+											list_to_week={this.state.listWeekWeather}
+										/>
+									)}
 								/>
-							)}
-						/>
-						<Route
-							path="/tomorrow"
-							render={props => (
-								<CityTomorrow
-									{...props}
-									// data={this.getting_weather_week()}
-									info_to_week={this.state.infoToWeek}
-									list_to_week={this.state.listWeekWeather}
+								<Route
+									path="/tomorrow"
+									render={props => (
+										<CityTomorrow
+											{...props}
+											// data={this.getting_weather_week()}
+											info_to_week={this.state.infoToWeek}
+											list_to_week={this.state.listWeekWeather}
+										/>
+									)}
 								/>
-							)}
-						/>
-						<Route
-							path="/week"
-							render={props => (
-								<CityWeek
-									{...props}
-									// data={this.getting_weather_week()}
-									info_to_week={this.state.infoToWeek}
-									list_to_week={this.state.listWeekWeather}
+								<Route
+									path="/week"
+									render={props => (
+										<CityWeek
+											{...props}
+											// data={this.getting_weather_week()}
+											info_to_week={this.state.infoToWeek}
+											list_to_week={this.state.listWeekWeather}
+										/>
+									)}
 								/>
-							)}
-						/>
+							</div>
+						</section>
 					</main>
 				</div>
 			</BrowserRouter>

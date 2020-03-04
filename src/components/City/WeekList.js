@@ -1,5 +1,4 @@
 import React from "react";
-import "./style.css";
 import List from "./OutputInfo/List";
 import Cards from "./OutputInfo/Cards";
 
@@ -63,7 +62,12 @@ const CityToday = props => {
 			</div>
 		);
 	} else {
-		return <Cards list={arr} />;
+		return (
+			<div className="card__container">
+				{" "}
+				<Cards list={arr} />
+			</div>
+		);
 	}
 };
 
