@@ -2,7 +2,9 @@ import React, { PureComponent } from "react";
 import Header from "./Header";
 import CurrentLocation from "./CurrentLocation";
 import CitiesList from "./CitiesList";
+import CityWeek from "./City/CityWeek";
 import CityToday from "./City/CityToday";
+import CityTomorrow from "./City/CityTomorrow";
 import "./style.css";
 import { BrowserRouter, Route } from "react-router-dom";
 
@@ -15,11 +17,23 @@ class App extends PureComponent {
 	state = {
 		listSaveCity: [],
 		currentLocation: {
+			id: undefined,
 			temp: undefined,
 			city: undefined,
 			country: undefined,
 			weather: undefined,
 			error: undefined
+		},
+		infoToWeek: {
+			date_now: undefined,
+			name: undefined,
+			country: undefined,
+			id: undefined,
+			coord: {
+				lat: undefined,
+				lon: undefined
+			}
+			// list: []
 		},
 		listWeekWeather: []
 	};
@@ -33,6 +47,7 @@ class App extends PureComponent {
 			if (!city) {
 				this.setState({
 					currentLocation: {
+						id: undefined,
 						temp: undefined,
 						city: undefined,
 						country: undefined,
@@ -56,6 +71,7 @@ class App extends PureComponent {
 
 				this.setState({
 					currentLocation: {
+						id: data.id,
 						temp: data.main.temp,
 						city: data.name,
 						country: data.sys.country,
@@ -93,6 +109,16 @@ class App extends PureComponent {
 			});
 	};
 	getting_weather_week = async () => {
+		let selectedCity = window.location.pathname.split("/").reverse()[0];
+
+		if (
+			this.state.infoToWeek.name &&
+			selectedCity.toLowerCase() === this.state.infoToWeek.name.toLowerCase()
+		) {
+			console.log("данные на этот город уже загружены, повтор не нужен !");
+			return;
+		}
+
 		await fetch(
 			`https://api.openweathermap.org/data/2.5/forecast?q=${
 				window.location.pathname.split("/").reverse()[0]
@@ -100,24 +126,30 @@ class App extends PureComponent {
 		)
 			.then(res => res.json())
 			.then(data => {
-				// const currentDate = new Date().getDate();
 				let newArr = [];
 
 				for (let i in data.list) {
-					// 	if (
-					// 		Number(
-					// 			data.list[i].dt_txt
-					// 				.split(" ")[0]
-					// 				.split("-")
-					// 				.reverse()[0]
-					// 		)
-					// 	) {
 					newArr.push(data.list[i]);
 				}
+
+				this.setState({
+					infoToWeek: {
+						date_now: new Date(),
+						name: data.city.name,
+						country: data.city.coutry,
+						id: data.city.id,
+						coord: {
+							lat: data.city.coord.lat,
+							lon: data.city.coord.lon
+						}
+						// list: newArr
+					}
+				});
+				console.log(data);
+
 				this.setState({
 					listWeekWeather: newArr
 				});
-				console.log(this.state.listWeekWeather);
 			})
 			.catch(err => {
 				console.log(err);
@@ -174,12 +206,6 @@ class App extends PureComponent {
 							plus_icon={plus}
 							add_city={this.add_city}
 						/>
-						{/* <Route path="/">
-							<CitiesList
-								listSaveCity={this.state.listSaveCity}
-								degrees_icon={degrees}
-							/>
-						</Route> */}
 						<Route
 							path="/home"
 							render={props => (
@@ -197,11 +223,33 @@ class App extends PureComponent {
 								<CityToday
 									{...props}
 									// data={this.getting_weather_week()}
-									listToday={this.state.listWeekWeather}
+									info_to_week={this.state.infoToWeek}
+									list_to_week={this.state.listWeekWeather}
 								/>
 							)}
 						/>
-						<Route path="/week" />
+						<Route
+							path="/tomorrow"
+							render={props => (
+								<CityTomorrow
+									{...props}
+									// data={this.getting_weather_week()}
+									info_to_week={this.state.infoToWeek}
+									list_to_week={this.state.listWeekWeather}
+								/>
+							)}
+						/>
+						<Route
+							path="/week"
+							render={props => (
+								<CityWeek
+									{...props}
+									// data={this.getting_weather_week()}
+									info_to_week={this.state.infoToWeek}
+									list_to_week={this.state.listWeekWeather}
+								/>
+							)}
+						/>
 					</main>
 				</div>
 			</BrowserRouter>

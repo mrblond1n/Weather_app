@@ -1,39 +1,16 @@
 import React from "react";
-// import "./style.css";
-
-// const CityToday = props => {
-// 	return (
-// 		<div className="cities__list" style={{ listStyle: "none" }}>
-// 			{props.data}
-// 		</div>
-// 	);
-// };
+import WeekList from "./WeekList";
 
 const CityToday = props => {
-	const todayElement = props.listToday.map((date, index) => {
-		return (
-			<li
-				key={index}
-				className="today__item"
-				// onClick={() => {
-				// 	props.select_city(city.city);
-				// }}
-			>
-				<div className="card">
-					<div className="card__header">{index}</div>
-					<div className="card__body">
-						{" "}
-						{date.dt_txt}
-						{/* Temp today {Math.round(city.temp)} {props.degrees_icon} */}
-					</div>
-				</div>
-			</li>
-		);
-	});
+	const date = `${new Date().toLocaleDateString("en", {
+		month: "long"
+	})}, ${new Date().getDate()}`;
 	return (
-		<ul className="cities__list" style={{ listStyle: "none" }}>
-			{todayElement}
-		</ul>
+		<div>
+			<h3>Today</h3>
+			<div>{date}</div>
+			<WeekList list_to_week={props.list_to_week} days={"today"} />
+		</div>
 	);
 };
 
