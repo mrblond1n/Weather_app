@@ -11,7 +11,6 @@ import "./style.css";
 import "normalize.css";
 
 const API_KEY = "43d829730c7ea38b646a9f6ff087c53d";
-// const API_KEY_MAPS = "AIzaSyBlYdVX6jYLv4h1zs6HJ_7Rw7YCnDoq0bY";
 
 class App extends PureComponent {
 	state = {
@@ -41,7 +40,6 @@ class App extends PureComponent {
 		let city;
 		if (e) {
 			e.preventDefault();
-
 			city = e.target.elements.city.value;
 			if (!city) {
 				this.setState({
@@ -52,6 +50,7 @@ class App extends PureComponent {
 						country: undefined,
 						weather: undefined,
 						wind: undefined,
+						coord: undefined,
 						error: "Insert city name"
 					}
 				});
@@ -76,9 +75,12 @@ class App extends PureComponent {
 						country: data.sys.country,
 						weather: data.weather[0].main,
 						wind: data.wind.speed,
+						coord: data.coord,
 						error: undefined
 					}
 				});
+				// получаем данные на неделю
+				this.getting_weather_week();
 			})
 			.catch(err => {
 				console.log(err);
@@ -90,6 +92,10 @@ class App extends PureComponent {
 		)
 			.then(res => res.json())
 			.then(data => {
+				console.log(
+					"полученны данные касательно текущего города getting_weather",
+					"город: " + currentCity
+				);
 				console.log(data);
 
 				this.setState({
@@ -99,32 +105,38 @@ class App extends PureComponent {
 						country: data.sys.country,
 						weather: data.weather[0].main,
 						wind: data.wind.speed,
+						coord: data.coord,
 						error: undefined
 					}
 				});
+				// получаем данные на неделю
+				this.getting_weather_week();
 			})
 			.catch(err => {
 				console.log(err);
 			});
 	};
 	getting_weather_week = async () => {
-		let selectedCity = window.location.pathname.split("/").reverse()[0];
-
+		if (!this.state.currentLocation.city) return;
 		if (
 			this.state.infoToWeek.name &&
-			selectedCity.toLowerCase() === this.state.infoToWeek.name.toLowerCase()
+			this.state.currentLocation.city.toLowerCase() ===
+				this.state.infoToWeek.name.toLowerCase()
 		) {
 			console.log("данные на этот город уже загружены, повтор не нужен !");
 			return;
 		}
 
 		await fetch(
-			`https://api.openweathermap.org/data/2.5/forecast?q=${
-				window.location.pathname.split("/").reverse()[0]
-			}&appid=${API_KEY}&units=metric`
+			`https://api.openweathermap.org/data/2.5/forecast?q=${this.state.currentLocation.city}&appid=${API_KEY}&units=metric`
 		)
 			.then(res => res.json())
 			.then(data => {
+				console.log(
+					"произошла загрузка данных getting_weather_week",
+					"город " + this.state.currentLocation.city
+				);
+
 				let newArr = [];
 
 				for (let i in data.list) {
@@ -133,7 +145,6 @@ class App extends PureComponent {
 
 				this.setState({
 					infoToWeek: {
-						date_now: new Date(),
 						name: data.city.name,
 						country: data.city.coutry,
 						id: data.city.id,
@@ -144,8 +155,6 @@ class App extends PureComponent {
 						// list: newArr
 					}
 				});
-				console.log(data);
-
 				this.setState({
 					listWeekWeather: newArr
 				});
@@ -166,6 +175,7 @@ class App extends PureComponent {
 	};
 
 	UNSAFE_componentWillMount() {
+		// Начальная загрузка данных о городе
 		this.getting_weather();
 	}
 	render() {
@@ -225,9 +235,9 @@ class App extends PureComponent {
 									render={props => (
 										<CityToday
 											{...props}
-											// data={this.getting_weather_week()}
 											info_to_week={this.state.infoToWeek}
 											list_to_week={this.state.listWeekWeather}
+											selected_city={this.state.currentLocation}
 										/>
 									)}
 								/>
@@ -236,9 +246,9 @@ class App extends PureComponent {
 									render={props => (
 										<CityTomorrow
 											{...props}
-											// data={this.getting_weather_week()}
 											info_to_week={this.state.infoToWeek}
 											list_to_week={this.state.listWeekWeather}
+											selected_city={this.state.currentLocation}
 										/>
 									)}
 								/>

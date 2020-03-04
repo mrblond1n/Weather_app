@@ -1,9 +1,6 @@
 import React from "react";
-// import "./style.css";
 
 const List = props => {
-	console.log(props);
-
 	return props.list.map((item, index) => {
 		return (
 			<tr key={index}>
