@@ -11,9 +11,7 @@ import "./style.css";
 import "normalize.css";
 
 const API_KEY = "43d829730c7ea38b646a9f6ff087c53d";
-// const url =
-// 	"http://api.openweathermap.org/data/2.5/forecast?q=moscow&appid=43d829730c7ea38b646a9f6ff087c53d";
-// const currentCity = "Moscow";
+// const API_KEY_MAPS = "AIzaSyBlYdVX6jYLv4h1zs6HJ_7Rw7YCnDoq0bY";
 
 class App extends PureComponent {
 	state = {

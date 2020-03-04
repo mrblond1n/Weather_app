@@ -8,6 +8,7 @@ const SearchForm = props => {
 				className="form__input"
 				type="text"
 				id="search_city"
+				autoComplete="on"
 				name="city"
 				placeholder="find city..."
 			/>{" "}
