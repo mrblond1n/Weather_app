@@ -142,6 +142,11 @@ section > .container:first-child {
 
 .wrapper--row {
 	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.wrapper--row div {
+	margin: 0 10px;
 }
 
 /* MAIN CONTENT */

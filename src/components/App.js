@@ -7,10 +7,20 @@ import CityToday from "./Content/CityToday";
 import CityTomorrow from "./Content/CityTomorrow";
 import { BrowserRouter, Route } from "react-router-dom";
 
+import { CSSTransition } from "react-transition-group";
+
 import "./style.css";
+import "./animation.css";
 import "normalize.css";
 
 const API_KEY = "43d829730c7ea38b646a9f6ff087c53d";
+
+const routes = [
+	{ path: "/home", name: "Home", Component: CitiesList },
+	{ path: "/today", name: "Today", Component: CityToday },
+	{ path: "/tomorrow", name: "Tomorrow", Component: CityTomorrow },
+	{ path: "/week", name: "Week", Component: CityWeek }
+];
 
 class App extends PureComponent {
 	state = {
@@ -250,57 +260,30 @@ class App extends PureComponent {
 								/>
 							</div>
 							<div className="container">
-								<Route
-									path="/home"
-									render={props => (
-										<CitiesList
-											{...props}
-											listSaveCity={this.state.listSaveCity}
-											degrees_icon={degrees}
-											select_city={this.select_city}
-											remove_city={this.remove_city}
-										/>
-									)}
-								/>
-								<Route
-									path="/today"
-									render={props => (
-										<CityToday
-											{...props}
-											info_to_week={this.state.infoToWeek}
-											list_to_week={this.state.listWeekWeather}
-											selected_city={this.state.currentLocation}
-											on_click_marker={this.on_click_marker}
-											show_info={this.state.map.show_info}
-											degrees_icon={degrees}
-										/>
-									)}
-								/>
-								<Route
-									path="/tomorrow"
-									render={props => (
-										<CityTomorrow
-											{...props}
-											info_to_week={this.state.infoToWeek}
-											list_to_week={this.state.listWeekWeather}
-											selected_city={this.state.currentLocation}
-											on_click_marker={this.on_click_marker}
-											show_info={this.state.map.show_info}
-											degrees_icon={degrees}
-										/>
-									)}
-								/>
-								<Route
-									path="/week"
-									render={props => (
-										<CityWeek
-											{...props}
-											info_to_week={this.state.infoToWeek}
-											list_to_week={this.state.listWeekWeather}
-											degrees_icon={degrees}
-										/>
-									)}
-								/>
+								{routes.map(({ path, Component }) => (
+									<Route key={path} path={path}>
+										{({ match }) => (
+											<CSSTransition
+												in={match != null}
+												timeout={300}
+												classNames="page"
+												unmountOnExit
+											>
+												<div className="page">
+													<Component
+														listSaveCity={this.state.listSaveCity}
+														info_to_week={this.state.infoToWeek}
+														list_to_week={this.state.listWeekWeather}
+														selected_city={this.state.currentLocation}
+														on_click_marker={this.on_click_marker}
+														show_info={this.state.map.show_info}
+														degrees_icon={degrees}
+													/>
+												</div>
+											</CSSTransition>
+										)}
+									</Route>
+								))}
 							</div>
 						</section>
 					</main>
