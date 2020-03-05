@@ -14,6 +14,7 @@ import { CSSTransition } from "react-transition-group";
 import "./style.css";
 import "./animation.css";
 import "normalize.css";
+import Footer from "./Footer";
 
 const API_KEY = "43d829730c7ea38b646a9f6ff087c53d";
 
@@ -287,6 +288,7 @@ class App extends PureComponent {
 							<Notification />
 						</section>
 					</main>
+					<Footer />
 				</div>
 			</BrowserRouter>
 		);
