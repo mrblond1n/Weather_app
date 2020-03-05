@@ -11,6 +11,11 @@
 	background: #fff;
 }
 
+.navigation {
+	display: flex;
+	align-items: center;
+}
+
 .navigation__list {
 	display: flex;
 }

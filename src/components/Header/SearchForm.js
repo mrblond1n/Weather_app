@@ -12,7 +12,6 @@ const SearchForm = props => {
 				name="city"
 				placeholder="find city..."
 			/>{" "}
-			<button className="button button--green">get info</button>
 		</form>
 	);
 };
