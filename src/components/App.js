@@ -28,12 +28,12 @@ class App extends PureComponent {
 	state = {
 		listSaveCity: [],
 		currentLocation: {
-			id: undefined,
 			temp: undefined,
 			city: undefined,
 			country: undefined,
 			weather: undefined,
-			error: undefined
+			wind: undefined,
+			coord: undefined
 		},
 		infoToWeek: {
 			name: undefined,
@@ -61,6 +61,10 @@ class App extends PureComponent {
 		await fetch(url)
 			.then(res => res.json())
 			.then(data => {
+				if (data.cod !== 200) {
+					notify(`Sorry, but ${data.message}`);
+					return;
+				}
 				this.setState({
 					currentLocation: {
 						temp: data.main.temp,
@@ -97,14 +101,12 @@ class App extends PureComponent {
 				}
 				this.setState({
 					currentLocation: {
-						id: data.id,
 						temp: data.main.temp,
 						city: data.name,
 						country: data.sys.country,
 						weather: data.weather[0].main,
 						wind: data.wind.speed,
-						coord: data.coord,
-						error: undefined
+						coord: data.coord
 					}
 				});
 				// If is OK > get week info of city
@@ -139,9 +141,7 @@ class App extends PureComponent {
 					infoToWeek: {
 						name: data.city.name,
 						country: data.city.coutry
-					}
-				});
-				this.setState({
+					},
 					listWeekWeather: newArr
 				});
 			})
@@ -184,19 +184,25 @@ class App extends PureComponent {
 
 	// START APP HERE
 	UNSAFE_componentWillMount() {
-		let geoOptions = {
-			timeout: 10 * 1000
-		};
-		let geoError = function(error) {
-			console.log("Error occurred. Error code: " + error.code);
-		};
+		if (window.location.pathname === "/home") {
+			let geoOptions = {
+				timeout: 10 * 1000
+			};
+			let geoError = function(error) {
+				console.log("Error occurred. Error code: " + error.code);
+			};
 
-		// get geo user`s data
-		navigator.geolocation.getCurrentPosition(
-			this.geoSuccess,
-			geoError,
-			geoOptions
-		);
+			// get geo user`s data
+			navigator.geolocation.getCurrentPosition(
+				this.geoSuccess,
+				geoError,
+				geoOptions
+			);
+		} else {
+			this.getting_weather({
+				city: window.location.pathname.split("/").reverse()[0]
+			});
+		}
 	}
 
 	render() {
