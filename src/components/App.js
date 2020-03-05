@@ -7,6 +7,8 @@ import CityToday from "./Content/CityToday";
 import CityTomorrow from "./Content/CityTomorrow";
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
 
+import Notification, { notify } from "./Notification";
+
 import { CSSTransition } from "react-transition-group";
 
 import "./style.css";
@@ -34,14 +36,8 @@ class App extends PureComponent {
 			error: undefined
 		},
 		infoToWeek: {
-			date_now: undefined,
 			name: undefined,
-			country: undefined,
-			id: undefined,
-			coord: {
-				lat: undefined,
-				lon: undefined
-			}
+			country: undefined
 		},
 		listWeekWeather: [],
 		map: {
@@ -73,7 +69,6 @@ class App extends PureComponent {
 						weather: data.weather[0].main,
 						wind: data.wind.speed,
 						coord: data.coord,
-						error: undefined
 					}
 				});
 				// получаем данные на неделю
@@ -88,19 +83,7 @@ class App extends PureComponent {
 		e.preventDefault();
 		city = e.target.elements.city.value;
 		if (!city) {
-			this.setState({
-				currentLocation: {
-					id: undefined,
-					temp: undefined,
-					city: undefined,
-					country: undefined,
-					weather: undefined,
-					wind: undefined,
-					coord: undefined,
-					error: "Insert city name"
-				}
-			});
-			return;
+			notify("Nothing search");
 		}
 
 		await fetch(
@@ -108,6 +91,10 @@ class App extends PureComponent {
 		)
 			.then(res => res.json())
 			.then(data => {
+				if (data.cod !== 200) {
+					notify(`Sorry, but ${data.message}`);
+					return;
+				}
 				this.setState({
 					currentLocation: {
 						id: data.id,
@@ -152,13 +139,7 @@ class App extends PureComponent {
 				this.setState({
 					infoToWeek: {
 						name: data.city.name,
-						country: data.city.coutry,
-						id: data.city.id,
-						coord: {
-							lat: data.city.coord.lat,
-							lon: data.city.coord.lon
-						}
-						// list: newArr
+						country: data.city.coutry
 					}
 				});
 				this.setState({
@@ -296,6 +277,7 @@ class App extends PureComponent {
 									</Route>
 								))}
 							</div>
+							<Notification />
 						</section>
 					</main>
 				</div>

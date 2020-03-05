@@ -13,7 +13,7 @@ function Navigation(props) {
 		<nav className="navigation">
 			<ul className="navigation__list">
 				{routes.map(route => (
-					<li className="navigation__item">
+					<li key={route.path} className="navigation__item">
 						<NavLink
 							className="navigation__link"
 							activeStyle={{ opacity: 1 }}

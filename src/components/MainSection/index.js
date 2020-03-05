@@ -1,4 +1,5 @@
 import React from "react";
+import { notify } from "../Notification";
 
 const CurrentLocation = props => {
 	return (
@@ -21,6 +22,7 @@ const CurrentLocation = props => {
 					className="button button--relative"
 					onClick={() => {
 						props.add_city(props.weather);
+						notify("Saved");
 					}}
 				>
 					{props.plus_icon}

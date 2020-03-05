@@ -42,7 +42,8 @@ class SimpleMap extends Component {
 						lat={center.lat}
 						lng={center.lng}
 						show={this.props.show_info}
-						selected_city={this.props.selected_city}
+						// selected_city={this.props.selected_city}
+						{...this.props}
 					/>
 				</GoogleMapReact>
 			</div>

@@ -11,19 +11,10 @@ const CityTomorrow = props => {
 			<div>
 				<h3 className="section__title">Tomorrow</h3>
 				<h5 className="section__subtitle">{date}</h5>
-				<WeekList
-					list_to_week={props.list_to_week}
-					days={"tomorrow"}
-					degrees_icon={props.degrees_icon}
-				/>
+				<WeekList days={"tomorrow"} {...props} />
 			</div>
 			<div>
-				<Maps
-					on_click_marker={props.on_click_marker}
-					selected_city={props.selected_city}
-					show_info={props.show_info}
-					degrees_icon={props.degrees_icon}
-				/>
+				<Maps {...props} />
 			</div>
 		</div>
 	);

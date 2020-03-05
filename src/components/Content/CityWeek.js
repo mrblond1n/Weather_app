@@ -17,11 +17,7 @@ const CityWeek = props => {
 			<h5 className="section__subtitle">
 				{date_start} - {date_finish}
 			</h5>
-			<WeekList
-				list_to_week={props.list_to_week}
-				days={"week"}
-				degrees_icon={props.degrees_icon}
-			/>
+			<WeekList {...props} days={"week"} />
 		</div>
 	);
 };
