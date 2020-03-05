@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import Header from "./Header";
+import Header from "./Header/Header";
 import CurrentLocation from "./MainSection";
 import CitiesList from "./Content/SaveCityList";
 import CityWeek from "./Content/CityWeek";
@@ -33,35 +33,68 @@ class App extends PureComponent {
 				lon: undefined
 			}
 		},
-		listWeekWeather: []
+		listWeekWeather: [],
+		map: {
+			show_info: false
+		}
 	};
 
-	getting_weather_input = async (e, currentCity = "moscow") => {
-		let city;
-		if (e) {
-			e.preventDefault();
-			city = e.target.elements.city.value;
-			if (!city) {
+	// FUNCTION
+
+	// function when mounting app
+	// data can be CITY or LAT & LON
+	getting_weather = async data => {
+		let url;
+		// let currentCity = "moscow";
+		if (data.city) {
+			url = `https://api.openweathermap.org/data/2.5/weather?q=${data.city}&appid=${API_KEY}&units=metric`;
+		} else {
+			url = `https://api.openweathermap.org/data/2.5/weather?lat=${data.lat}&lon=${data.lon}&appid=${API_KEY}&units=metric`;
+		}
+
+		await fetch(url)
+			.then(res => res.json())
+			.then(data => {
 				this.setState({
 					currentLocation: {
-						id: undefined,
-						temp: undefined,
-						city: undefined,
-						country: undefined,
-						weather: undefined,
-						wind: undefined,
-						coord: undefined,
-						error: "Insert city name"
+						temp: data.main.temp,
+						city: data.name,
+						country: data.sys.country,
+						weather: data.weather[0].main,
+						wind: data.wind.speed,
+						coord: data.coord,
+						error: undefined
 					}
 				});
-				return;
-			}
-		} else {
-			city = currentCity;
+				// получаем данные на неделю
+				this.getting_weather_week();
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+	getting_weather_input = async e => {
+		let city;
+		e.preventDefault();
+		city = e.target.elements.city.value;
+		if (!city) {
+			this.setState({
+				currentLocation: {
+					id: undefined,
+					temp: undefined,
+					city: undefined,
+					country: undefined,
+					weather: undefined,
+					wind: undefined,
+					coord: undefined,
+					error: "Insert city name"
+				}
+			});
+			return;
 		}
 
 		await fetch(
-			`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric&lang=ru`
+			`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
 		)
 			.then(res => res.json())
 			.then(data => {
@@ -79,37 +112,7 @@ class App extends PureComponent {
 						error: undefined
 					}
 				});
-				// получаем данные на неделю
-				this.getting_weather_week();
-			})
-			.catch(err => {
-				console.log(err);
-			});
-	};
-	getting_weather = async (currentCity = "moscow") => {
-		await fetch(
-			`https://api.openweathermap.org/data/2.5/weather?q=${currentCity}&appid=${API_KEY}&units=metric`
-		)
-			.then(res => res.json())
-			.then(data => {
-				console.log(
-					"полученны данные касательно текущего города getting_weather",
-					"город: " + currentCity
-				);
-				console.log(data);
-
-				this.setState({
-					currentLocation: {
-						temp: data.main.temp,
-						city: data.name,
-						country: data.sys.country,
-						weather: data.weather[0].main,
-						wind: data.wind.speed,
-						coord: data.coord,
-						error: undefined
-					}
-				});
-				// получаем данные на неделю
+				// If is OK > get week info of city
 				this.getting_weather_week();
 			})
 			.catch(err => {
@@ -123,7 +126,7 @@ class App extends PureComponent {
 			this.state.currentLocation.city.toLowerCase() ===
 				this.state.infoToWeek.name.toLowerCase()
 		) {
-			console.log("данные на этот город уже загружены, повтор не нужен !");
+			// Already we have data, no need make request for data again...
 			return;
 		}
 
@@ -164,20 +167,59 @@ class App extends PureComponent {
 			});
 	};
 
+	// handlers
 	select_city = city => {
-		this.getting_weather(city);
+		this.getting_weather({ city: city });
 	};
-
 	add_city = city => {
 		this.setState(prevState => ({
 			listSaveCity: [...prevState.listSaveCity, city]
 		}));
 	};
+	on_click_marker = () => {
+		this.setState({
+			map: { show_info: !this.state.map.show_info }
+		});
+		console.log(this.state.map.show_info);
+	};
+	// remove_city = (e, index) => {
+	// 	e.stopPropagation();
+	// 	e.preventDefault();
+	// 	console.log(e);
 
+	// 	console.log(this.state.listSaveCity[index]);
+
+	// 	// this.state.listSaveCity.splice(index, 1);
+	// 	// this.setState({
+	// 	// 	listSaveCity: copyArr
+	// 	// });
+	// };
+
+	// main function for  get geoloc data user
+	geoSuccess = position => {
+		this.getting_weather({
+			lat: position.coords.latitude,
+			lon: position.coords.longitude
+		});
+	};
+
+	// START APP HERE
 	UNSAFE_componentWillMount() {
-		// Начальная загрузка данных о городе
-		this.getting_weather();
+		let geoOptions = {
+			timeout: 10 * 1000
+		};
+		let geoError = function(error) {
+			console.log("Error occurred. Error code: " + error.code);
+		};
+
+		// get geo user`s data
+		navigator.geolocation.getCurrentPosition(
+			this.geoSuccess,
+			geoError,
+			geoOptions
+		);
 	}
+
 	render() {
 		const degrees = (
 			<svg viewBox={"0 0 24 24"}>
@@ -227,6 +269,7 @@ class App extends PureComponent {
 											listSaveCity={this.state.listSaveCity}
 											degrees_icon={degrees}
 											select_city={this.select_city}
+											// remove_city={this.remove_city}
 										/>
 									)}
 								/>
@@ -238,6 +281,9 @@ class App extends PureComponent {
 											info_to_week={this.state.infoToWeek}
 											list_to_week={this.state.listWeekWeather}
 											selected_city={this.state.currentLocation}
+											on_click_marker={this.on_click_marker}
+											show_info={this.state.map.show_info}
+											degrees_icon={degrees}
 										/>
 									)}
 								/>
@@ -249,6 +295,9 @@ class App extends PureComponent {
 											info_to_week={this.state.infoToWeek}
 											list_to_week={this.state.listWeekWeather}
 											selected_city={this.state.currentLocation}
+											on_click_marker={this.on_click_marker}
+											show_info={this.state.map.show_info}
+											degrees_icon={degrees}
 										/>
 									)}
 								/>
@@ -257,9 +306,9 @@ class App extends PureComponent {
 									render={props => (
 										<CityWeek
 											{...props}
-											// data={this.getting_weather_week()}
 											info_to_week={this.state.infoToWeek}
 											list_to_week={this.state.listWeekWeather}
+											degrees_icon={degrees}
 										/>
 									)}
 								/>

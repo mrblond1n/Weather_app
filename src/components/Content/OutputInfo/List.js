@@ -12,8 +12,8 @@ const List = props => {
 						.join(":")}
 				</td>
 				<td>
-					{item.weather.temp} {item.weather.description}, Wind -{" "}
-					{item.weather.wind} meter per second
+					{item.weather.temp} {props.degrees_icon} {item.weather.description},
+					Wind - {item.weather.wind} meter per second
 				</td>
 			</tr>
 		);

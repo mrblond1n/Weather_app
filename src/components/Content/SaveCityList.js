@@ -1,7 +1,7 @@
 import React from "react";
 
 const CitiesList = props => {
-	const articleElements = props.listSaveCity.slice(0, 12).map((city, index) => {
+	const articleElements = props.listSaveCity.map((city, index) => {
 		return (
 			<li
 				key={index}
@@ -17,6 +17,7 @@ const CitiesList = props => {
 					<div className="card__body">
 						Temp today {Math.round(city.temp)} {props.degrees_icon}
 					</div>
+					{/* <button onClick={e => props.remove_city(e, index)}>delete</button> */}
 				</div>
 			</li>
 		);

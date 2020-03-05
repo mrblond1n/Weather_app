@@ -1,5 +1,4 @@
 import React from "react";
-// import "./style.css";
 
 const Cards = props => {
 	let groups = [];
@@ -20,6 +19,18 @@ const Cards = props => {
 	}
 
 	return groups.map((item, index) => {
+		let i = Math.round(item.weather.length / 2);
+		let current_index;
+		switch (i) {
+			case 1:
+				current_index = 0;
+				break;
+
+			default:
+				current_index = i;
+				break;
+		}
+
 		return (
 			<div className="card" key={index}>
 				<div className="card__header">
@@ -28,14 +39,15 @@ const Cards = props => {
 					})}
 					, {new Date(item.date).getDate()}
 				</div>
-				<div>
-					Night: {Math.round(item.weather[0].temp)},{" "}
-					{item.weather[0].description}
-				</div>
-				<div>
-					Day:{" "}
-					{Math.round(item.weather[Math.round(item.weather.length / 2)].temp)},{" "}
-					{item.weather[Math.round(item.weather.length / 2)].description}
+				<div className="card__body card__body--column">
+					<div>
+						Night: {Math.round(item.weather[0].temp)} {props.degrees_icon},
+						{item.weather[0].description}
+					</div>
+					<div>
+						Day: {Math.round(item.weather[current_index].temp)}{" "}
+						{props.degrees_icon},{item.weather[current_index].description}
+					</div>
 				</div>
 			</div>
 		);

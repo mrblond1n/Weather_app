@@ -56,7 +56,7 @@ const CityToday = props => {
 						</tr>
 					</thead>
 					<tbody>
-						<List list={arr} />
+						<List list={arr} degrees_icon={props.degrees_icon} />
 					</tbody>
 				</table>
 			</div>
@@ -65,7 +65,7 @@ const CityToday = props => {
 		return (
 			<div className="card__container">
 				{" "}
-				<Cards list={arr} />
+				<Cards list={arr} degrees_icon={props.degrees_icon} />
 			</div>
 		);
 	}
