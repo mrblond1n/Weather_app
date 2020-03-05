@@ -276,6 +276,7 @@ class App extends PureComponent {
 															selected_city={this.state.currentLocation}
 															on_click_marker={this.on_click_marker}
 															show_info={this.state.map.show_info}
+															select_city={this.select_city}
 															degrees_icon={degrees}
 														/>
 													</div>

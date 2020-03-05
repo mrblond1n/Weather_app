@@ -233,6 +233,12 @@ section > .container:first-child {
 	box-shadow: 0 0 20px -1px grey;
 	margin: 10px;
 	background: #fff;
+	transition: 0.4s;
+}
+
+.sities__item .card:hover {
+	box-shadow: 0 0 10px -1px grey;
+	cursor: pointer;
 }
 
 .card--window-info {
