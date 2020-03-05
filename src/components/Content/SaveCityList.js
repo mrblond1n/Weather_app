@@ -5,9 +5,10 @@ const CitiesList = props => {
 		return (
 			<li
 				key={index}
+				index={index}
 				className="sities__item"
-				onClick={() => {
-					props.select_city(city.city);
+				onClick={e => {
+					props.select_city(e, city.city);
 				}}
 			>
 				<div className="card">
@@ -17,7 +18,9 @@ const CitiesList = props => {
 					<div className="card__body">
 						Temp today {Math.round(city.temp)} {props.degrees_icon}
 					</div>
-					{/* <button onClick={e => props.remove_city(e, index)}>delete</button> */}
+					{/* <button className="button" onClick={() => props.remove_city(index)}>
+						delete
+					</button> */}
 				</div>
 			</li>
 		);

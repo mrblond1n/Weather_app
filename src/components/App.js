@@ -98,8 +98,6 @@ class App extends PureComponent {
 		)
 			.then(res => res.json())
 			.then(data => {
-				console.log(data);
-
 				this.setState({
 					currentLocation: {
 						id: data.id,
@@ -135,11 +133,6 @@ class App extends PureComponent {
 		)
 			.then(res => res.json())
 			.then(data => {
-				console.log(
-					"произошла загрузка данных getting_weather_week",
-					"город " + this.state.currentLocation.city
-				);
-
 				let newArr = [];
 
 				for (let i in data.list) {
@@ -168,7 +161,8 @@ class App extends PureComponent {
 	};
 
 	// handlers
-	select_city = city => {
+	select_city = (e, city) => {
+		e.stopPropagation();
 		this.getting_weather({ city: city });
 	};
 	add_city = city => {
@@ -180,19 +174,14 @@ class App extends PureComponent {
 		this.setState({
 			map: { show_info: !this.state.map.show_info }
 		});
-		console.log(this.state.map.show_info);
 	};
-	// remove_city = (e, index) => {
-	// 	e.stopPropagation();
-	// 	e.preventDefault();
-	// 	console.log(e);
-
-	// 	console.log(this.state.listSaveCity[index]);
-
-	// 	// this.state.listSaveCity.splice(index, 1);
-	// 	// this.setState({
-	// 	// 	listSaveCity: copyArr
-	// 	// });
+	// remove_city = index => {
+	// 	let arr = this.state.listSaveCity;
+	// 	arr.splice(index, 1);
+	// 	this.setState({
+	// 		listSaveCity: arr
+	// 	});
+	// 	console.log(index);
 	// };
 
 	// main function for  get geoloc data user
@@ -269,7 +258,7 @@ class App extends PureComponent {
 											listSaveCity={this.state.listSaveCity}
 											degrees_icon={degrees}
 											select_city={this.select_city}
-											// remove_city={this.remove_city}
+											remove_city={this.remove_city}
 										/>
 									)}
 								/>

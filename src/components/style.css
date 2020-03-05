@@ -244,12 +244,13 @@ section > .container:first-child {
 .card__body {
 	display: flex;
 	align-items: center;
+	justify-content: center;
+	margin: 15px 0;
 }
 
 .card__header {
 	font-size: 20px;
 	font-weight: bolder;
-	margin-bottom: 15px;
 }
 
 .card__body--column {
