@@ -5,7 +5,7 @@ import CitiesList from "./Content/SaveCityList";
 import CityWeek from "./Content/CityWeek";
 import CityToday from "./Content/CityToday";
 import CityTomorrow from "./Content/CityTomorrow";
-import { BrowserRouter, Route, Redirect } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 
 import Notification, { notify } from "./Notification";
 
@@ -16,13 +16,18 @@ import "./animation.css";
 import "normalize.css";
 import Footer from "./Footer";
 
-const API_KEY = "43d829730c7ea38b646a9f6ff087c53d";
+const API_KEY = process.env.REACT_APP_API_KEY;
 
 const routes = [
-	{ path: "/home", name: "Home", Component: CitiesList },
-	{ path: "/today", name: "Today", Component: CityToday },
-	{ path: "/tomorrow", name: "Tomorrow", Component: CityTomorrow },
-	{ path: "/week", name: "Week", Component: CityWeek }
+	{ path: "/", name: "Home", Component: CitiesList, isExact: true },
+	{ path: "/today", name: "Today", Component: CityToday, isExact: false },
+	{
+		path: "/tomorrow",
+		name: "Tomorrow",
+		Component: CityTomorrow,
+		isExact: false
+	},
+	{ path: "/week", name: "Week", Component: CityWeek, isExact: false }
 ];
 
 class App extends PureComponent {
@@ -55,7 +60,7 @@ class App extends PureComponent {
 		// let currentCity = "moscow";
 		if (data.city) {
 			url = `https://api.openweathermap.org/data/2.5/weather?q=${data.city}&appid=${API_KEY}&units=metric`;
-		} else {
+		} else if (data.lat) {
 			url = `https://api.openweathermap.org/data/2.5/weather?lat=${data.lat}&lon=${data.lon}&appid=${API_KEY}&units=metric`;
 		}
 
@@ -185,7 +190,8 @@ class App extends PureComponent {
 
 	// START APP HERE
 	UNSAFE_componentWillMount() {
-		if (window.location.pathname === "/home") {
+		if (window.location.pathname === "/") {
+			console.log(window.location.pathname);
 			let geoOptions = {
 				timeout: 10 * 1000
 			};
@@ -207,17 +213,6 @@ class App extends PureComponent {
 	}
 
 	render() {
-		// redirect to /home
-		if (window.location.pathname === "/") {
-			return (
-				<BrowserRouter>
-					<Route path="/">
-						<Redirect to="/home" />;
-					</Route>
-				</BrowserRouter>
-			);
-		}
-
 		const degrees = (
 			<svg viewBox={"0 0 24 24"}>
 				<path
@@ -259,8 +254,8 @@ class App extends PureComponent {
 							</div>
 							{(this.state.infoToWeek.name && (
 								<div className="container">
-									{routes.map(({ path, Component }) => (
-										<Route key={path} path={path}>
+									{routes.map(({ path, Component, isExact }) => (
+										<Route exact={isExact} key={path} path={path}>
 											{({ match }) => (
 												<CSSTransition
 													in={match != null}

@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 const routes = [
-	{ path: "/home", name: "Home" },
+	{ path: "/", name: "Home" },
 	{ path: "/today", name: "Today" },
 	{ path: "/tomorrow", name: "Tomorrow" },
 	{ path: "/week", name: "Week" }
@@ -19,7 +19,7 @@ function Navigation(props) {
 							activeStyle={{ opacity: 1 }}
 							key={route.path}
 							to={
-								route.path === "/home"
+								route.path === "/"
 									? route.path
 									: `${route.path}/${props.selected_city.city}`
 							}

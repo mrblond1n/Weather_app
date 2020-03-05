@@ -23,12 +23,14 @@ export const notify = msg => {
 	emitter.emit("notifications", msg);
 };
 
+const positionTop = 80;
+
 export default class Notification extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			top: -100
+			top: -positionTop
 		};
 
 		this.timeout = null;
@@ -40,7 +42,7 @@ export default class Notification extends React.Component {
 	onShow = msg => {
 		if (this.timeout) {
 			clearTimeout(this.timeout);
-			this.setState({ top: -100 }, () => {
+			this.setState({ top: -positionTop }, () => {
 				this.timeout = setTimeout(() => {
 					this.showNotification(msg);
 				}, 500);
@@ -52,13 +54,13 @@ export default class Notification extends React.Component {
 	showNotification = msg => {
 		this.setState(
 			{
-				top: 100,
+				top: positionTop,
 				msg: msg
 			},
 			() => {
 				this.timeout = setTimeout(() => {
 					this.setState({
-						top: -100,
+						top: -positionTop,
 						msg: ""
 					});
 				}, 3000);
