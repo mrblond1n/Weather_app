@@ -1,6 +1,6 @@
 import React from "react";
 import WeekList from "./OutputInfo/WeekList";
-import Maps from "../Maps/Maps";
+import Maps from "../Maps/Maps_Ya";
 
 const CityTomorrow = props => {
 	const date = `${new Date().toLocaleDateString("en", {
