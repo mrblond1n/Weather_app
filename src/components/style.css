@@ -207,6 +207,7 @@ section > .container:first-child {
 .card__container {
 	display: flex;
 	justify-content: space-around;
+	flex-wrap: wrap;
 }
 
 .cities__list {
@@ -221,6 +222,7 @@ section > .container:first-child {
 }
 
 .card {
+	min-width: 170px;
 	padding: 30px;
 	text-align: center;
 	border-radius: 5px;

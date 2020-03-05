@@ -68,7 +68,7 @@ class App extends PureComponent {
 						country: data.sys.country,
 						weather: data.weather[0].main,
 						wind: data.wind.speed,
-						coord: data.coord,
+						coord: data.coord
 					}
 				});
 				// получаем данные на неделю
@@ -135,7 +135,6 @@ class App extends PureComponent {
 				for (let i in data.list) {
 					newArr.push(data.list[i]);
 				}
-
 				this.setState({
 					infoToWeek: {
 						name: data.city.name,
@@ -251,32 +250,34 @@ class App extends PureComponent {
 									add_city={this.add_city}
 								/>
 							</div>
-							<div className="container">
-								{routes.map(({ path, Component }) => (
-									<Route key={path} path={path}>
-										{({ match }) => (
-											<CSSTransition
-												in={match != null}
-												timeout={300}
-												classNames="page"
-												unmountOnExit
-											>
-												<div className="page">
-													<Component
-														listSaveCity={this.state.listSaveCity}
-														info_to_week={this.state.infoToWeek}
-														list_to_week={this.state.listWeekWeather}
-														selected_city={this.state.currentLocation}
-														on_click_marker={this.on_click_marker}
-														show_info={this.state.map.show_info}
-														degrees_icon={degrees}
-													/>
-												</div>
-											</CSSTransition>
-										)}
-									</Route>
-								))}
-							</div>
+							{(this.state.infoToWeek.name && (
+								<div className="container">
+									{routes.map(({ path, Component }) => (
+										<Route key={path} path={path}>
+											{({ match }) => (
+												<CSSTransition
+													in={match != null}
+													timeout={300}
+													classNames="page"
+													unmountOnExit
+												>
+													<div className="page">
+														<Component
+															listSaveCity={this.state.listSaveCity}
+															info_to_week={this.state.infoToWeek}
+															list_to_week={this.state.listWeekWeather}
+															selected_city={this.state.currentLocation}
+															on_click_marker={this.on_click_marker}
+															show_info={this.state.map.show_info}
+															degrees_icon={degrees}
+														/>
+													</div>
+												</CSSTransition>
+											)}
+										</Route>
+									))}
+								</div>
+							)) || <div className="container">Data is not available</div>}
 							<Notification />
 						</section>
 					</main>
