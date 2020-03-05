@@ -5,16 +5,16 @@ import CitiesList from "./Content/SaveCityList";
 import CityWeek from "./Content/CityWeek";
 import CityToday from "./Content/CityToday";
 import CityTomorrow from "./Content/CityTomorrow";
+import Footer from "./Footer";
+
 import { BrowserRouter, Route } from "react-router-dom";
-
 import Notification, { notify } from "./Notification";
-
 import { CSSTransition } from "react-transition-group";
 
 import "./style.css";
 import "./animation.css";
 import "normalize.css";
-import Footer from "./Footer";
+import "./preloader.css";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -29,6 +29,18 @@ const routes = [
 	},
 	{ path: "/week", name: "Week", Component: CityWeek, isExact: false }
 ];
+
+const isLoadingOff = () => {
+	document.body.classList.add("loaded_hiding");
+	window.setTimeout(function() {
+		document.body.classList.add("loaded");
+		document.body.classList.remove("loaded_hiding");
+	}, 500);
+};
+
+const isLoadingOn = () => {
+	document.body.classList.remove("loaded");
+};
 
 class App extends PureComponent {
 	state = {
@@ -63,7 +75,7 @@ class App extends PureComponent {
 		} else if (data.lat) {
 			url = `https://api.openweathermap.org/data/2.5/weather?lat=${data.lat}&lon=${data.lon}&appid=${API_KEY}&units=metric`;
 		}
-
+		isLoadingOn();
 		await fetch(url)
 			.then(res => res.json())
 			.then(data => {
@@ -95,7 +107,7 @@ class App extends PureComponent {
 		if (!city) {
 			notify("Nothing search");
 		}
-
+		isLoadingOn();
 		await fetch(
 			`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
 		)
@@ -103,6 +115,7 @@ class App extends PureComponent {
 			.then(data => {
 				if (data.cod !== 200) {
 					notify(`Sorry, but ${data.message}`);
+					isLoadingOff();
 					return;
 				}
 				this.setState({
@@ -115,10 +128,12 @@ class App extends PureComponent {
 						coord: data.coord
 					}
 				});
+				isLoadingOff();
 				// If is OK > get week info of city
 				this.getting_weather_week();
 			})
 			.catch(err => {
+				isLoadingOff();
 				console.log(err);
 			});
 	};
@@ -132,7 +147,7 @@ class App extends PureComponent {
 			// Already we have data, no need make request for data again...
 			return;
 		}
-
+		isLoadingOn();
 		await fetch(
 			`https://api.openweathermap.org/data/2.5/forecast?q=${this.state.currentLocation.city}&appid=${API_KEY}&units=metric`
 		)
@@ -150,8 +165,10 @@ class App extends PureComponent {
 					},
 					listWeekWeather: newArr
 				});
+				isLoadingOff();
 			})
 			.catch(err => {
+				isLoadingOff();
 				console.log(err);
 			});
 	};
@@ -191,12 +208,12 @@ class App extends PureComponent {
 	// START APP HERE
 	UNSAFE_componentWillMount() {
 		if (window.location.pathname === "/") {
-			console.log(window.location.pathname);
 			let geoOptions = {
 				timeout: 10 * 1000
 			};
 			let geoError = function(error) {
-				console.log("Error occurred. Error code: " + error.code);
+				// console.log("Error occurred. Error code: " + error.code);
+				isLoadingOff();
 			};
 
 			// get geo user`s data
@@ -236,6 +253,13 @@ class App extends PureComponent {
 
 		return (
 			<BrowserRouter>
+				<div className="preloader">
+					<div className="preloader__row">
+						<div className="preloader__item"></div>
+						<div className="preloader__item"></div>
+						<div className="preloader__item"></div>
+					</div>
+				</div>
 				<div className="wrapper">
 					<Header
 						getting_weather_week={this.getting_weather_week}
