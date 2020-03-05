@@ -9,7 +9,7 @@ function CitiesList(props) {
 			<ul className="cities__list">
 				<TransitionGroup className="cities__list" defaultValue="dsd">
 					{props.listSaveCity.map((city, index) => (
-						<CSSTransition key={index} timeout={500} classNames="option">
+						<CSSTransition key={index} timeout={500} classNames="page">
 							<li
 								className="sities__item"
 								onClick={e => {

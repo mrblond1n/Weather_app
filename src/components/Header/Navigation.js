@@ -1,57 +1,38 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-const Navigation = props => {
+const routes = [
+	{ path: "/home", name: "Home" },
+	{ path: "/today", name: "Today" },
+	{ path: "/tomorrow", name: "Tomorrow" },
+	{ path: "/week", name: "Week" }
+];
+
+function Navigation(props) {
 	return (
 		<nav className="navigation">
 			<ul className="navigation__list">
-				<li className="navigation__item">
-					<NavLink
-						activeStyle={{
-							opacity: 1
-						}}
-						className="navigation__link"
-						to="/home"
-					>
-						home
-					</NavLink>
-				</li>
-				<li className="navigation__item" onClick={props.getting_weather_week}>
-					<NavLink
-						activeStyle={{
-							opacity: 1
-						}}
-						className="navigation__link"
-						to={`/today/${props.selected_city.city}`}
-					>
-						Today
-					</NavLink>
-				</li>
-				<li className="navigation__item" onClick={props.getting_weather_week}>
-					<NavLink
-						activeStyle={{
-							opacity: 1
-						}}
-						className="navigation__link"
-						to={`/tomorrow/${props.selected_city.city}`}
-					>
-						Tomorrow
-					</NavLink>
-				</li>
-				<li className="navigation__item" onClick={props.getting_weather_week}>
-					<NavLink
-						activeStyle={{
-							opacity: 1
-						}}
-						className="navigation__link"
-						to={`/week/${props.selected_city.city}`}
-					>
-						Week
-					</NavLink>
-				</li>
+				{routes.map(route => (
+					<li className="navigation__item">
+						<NavLink
+							className="navigation__link"
+							activeStyle={{ opacity: 1 }}
+							key={route.path}
+							to={
+								route.path === "/home"
+									? route.path
+									: `${route.path}/${props.selected_city.city}`
+							}
+							activeClassName="active"
+							exact
+						>
+							{route.name}
+						</NavLink>
+					</li>
+				))}
 			</ul>
 		</nav>
 	);
-};
+}
 
 export default Navigation;

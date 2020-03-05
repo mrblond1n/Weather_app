@@ -3,7 +3,7 @@ import React from "react";
 const CurrentLocation = props => {
 	return (
 		<div className="current-city container">
-			{props.weather.city && (
+			{(props.weather.city && (
 				<ul className="current-city__list">
 					<li className="current-city__item">
 						{Math.round(Number(props.weather.temp))} {props.degrees_icon}
@@ -15,15 +15,18 @@ const CurrentLocation = props => {
 						{props.weather.weather}, wind - {props.weather.wind} m/s
 					</li>
 				</ul>
+			)) || <div>Data is not available</div>}
+			{props.weather.city && (
+				<button
+					className="button button--relative"
+					onClick={() => {
+						props.add_city(props.weather);
+					}}
+				>
+					{props.plus_icon}
+				</button>
 			)}
-			<button
-				className="button button--relative"
-				onClick={() => {
-					props.add_city(props.weather);
-				}}
-			>
-				{props.plus_icon}
-			</button>
+
 			<p>{props.weather.error}</p>
 		</div>
 	);

@@ -5,7 +5,7 @@ import CitiesList from "./Content/SaveCityList";
 import CityWeek from "./Content/CityWeek";
 import CityToday from "./Content/CityToday";
 import CityTomorrow from "./Content/CityTomorrow";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Redirect } from "react-router-dom";
 
 import { CSSTransition } from "react-transition-group";
 
@@ -220,6 +220,17 @@ class App extends PureComponent {
 	}
 
 	render() {
+		// redirect to /home
+		if (window.location.pathname === "/") {
+			return (
+				<BrowserRouter>
+					<Route path="/">
+						<Redirect to="/home" />;
+					</Route>
+				</BrowserRouter>
+			);
+		}
+
 		const degrees = (
 			<svg viewBox={"0 0 24 24"}>
 				<path
