@@ -79,8 +79,9 @@ class App extends PureComponent {
 		await fetch(url)
 			.then(res => res.json())
 			.then(data => {
-				if (data.cod !== 200) {
-					notify(`Sorry, but ${data.message}`);
+				if (data.cod !== 200 || !data.name) {
+					notify(`Sorry, but ${data.message ? data.message : "is not found"}`);
+					isLoadingOff();
 					return;
 				}
 				this.setState({
@@ -98,6 +99,7 @@ class App extends PureComponent {
 			})
 			.catch(err => {
 				console.log(err);
+				isLoadingOff();
 			});
 	};
 	getting_weather_input = async e => {
@@ -297,6 +299,7 @@ class App extends PureComponent {
 															show_info={this.state.map.show_info}
 															select_city={this.select_city}
 															degrees_icon={degrees}
+															getting_weather={this.getting_weather}
 														/>
 													</div>
 												</CSSTransition>

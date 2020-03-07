@@ -7,6 +7,13 @@ const SimpleMap = props => {
 			<Map
 				height={300}
 				width={600}
+				state={{
+					center: [
+						props.selected_city.coord.lat,
+						props.selected_city.coord.lon
+					],
+					zoom: 9
+				}}
 				defaultState={{
 					center: [
 						props.selected_city.coord.lat,
@@ -16,12 +23,21 @@ const SimpleMap = props => {
 				}}
 			>
 				<Placemark
+					onDragend={e => {
+						props.getting_weather({
+							lat: Object.values(e)[0].target.geometry._coordinates[0],
+							lon: Object.values(e)[0].target.geometry._coordinates[1]
+						});
+					}}
 					geometry={[
 						props.selected_city.coord.lat,
 						props.selected_city.coord.lon
 					]}
+					options={{
+						draggable: true
+					}}
 					properties={{
-						hintContent: "Собственный значок метки",
+						hintContent: `${props.selected_city.city}`,
 						balloonContent: `${props.selected_city.city}, ${
 							props.selected_city.country
 						}
