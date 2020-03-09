@@ -1,6 +1,6 @@
 import React from "react";
 import SearchForm from "./SearchForm";
-import Navigation from "./Navigation";
+import Navigation from "./TopNav";
 
 const Header = props => {
 	return (

@@ -75,6 +75,25 @@ section > .container:first-child {
 		div {
 			margin: 0 10px;
 		}
+		div:first-child {
+			@include laptops {
+				display: flex;
+				justify-content: center;
+				flex-direction: column;
+				align-items: center;
+			}
+		}
+		div:last-child {
+			display: flex;
+			justify-content: center;
+			width: 600px;
+			@include phones {
+				width: 300px;
+			}
+			@include laptops {
+				width: 450px;
+			}
+		}
 	}
 }
 

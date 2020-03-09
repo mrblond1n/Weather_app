@@ -4,9 +4,10 @@ import { YMaps, Map, Placemark } from "react-yandex-maps";
 const SimpleMap = props => {
 	return (
 		<YMaps>
+			{/* <div style={{ width: "100%" }}> */}
 			<Map
 				height={300}
-				width={600}
+				width={-1}
 				state={{
 					center: [
 						props.selected_city.coord.lat,
@@ -49,6 +50,7 @@ const SimpleMap = props => {
 					modules={["geoObject.addon.balloon", "geoObject.addon.hint"]}
 				/>
 			</Map>
+			{/* </div> */}
 		</YMaps>
 	);
 };

@@ -47,19 +47,17 @@ const CityToday = props => {
 	});
 	if (props.days === "today" || props.days === "tomorrow") {
 		return (
-			<div>
-				<table className="table">
-					<thead>
-						<tr>
-							<th>Time</th>
-							<th>Weather</th>
-						</tr>
-					</thead>
-					<tbody>
-						<List list={arr} degrees_icon={props.degrees_icon} />
-					</tbody>
-				</table>
-			</div>
+			<table className="table">
+				<thead>
+					<tr>
+						<th>Time</th>
+						<th>Weather</th>
+					</tr>
+				</thead>
+				<tbody>
+					<List list={arr} degrees_icon={props.degrees_icon} />
+				</tbody>
+			</table>
 		);
 	} else {
 		return (

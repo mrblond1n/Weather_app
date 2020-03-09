@@ -3,14 +3,16 @@ import { BrowserRouter, Route } from "react-router-dom";
 import Notification, { notify } from "./Notification";
 import { CSSTransition } from "react-transition-group";
 
-import Header from "./Header/Header";
+import Header from "./Header/Main";
+import Drawer from "./Header/LeftNav";
+
 import CurrentLocation from "./MainSection";
 import CitiesList from "./Content/SaveCityList";
 import CityWeek from "./Content/CityWeek";
 import CityToday from "./Content/CityToday";
 import CityTomorrow from "./Content/CityTomorrow";
-import Footer from "./Footer";
-import Drawer from "./Header/Drawer";
+
+import Footer from "./Footer/Main";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 

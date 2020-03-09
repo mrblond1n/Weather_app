@@ -11,7 +11,6 @@ const routes = [
 function Navigation(props) {
 	return (
 		<nav className="navigation">
-			{document.documentElement.clientWidth <= 550 && <div>RUSSEL</div>}
 			<ul className="navigation__list">
 				{routes.map(route => (
 					<li key={route.path} className="navigation__item">
