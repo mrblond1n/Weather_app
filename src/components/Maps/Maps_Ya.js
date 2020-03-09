@@ -7,7 +7,7 @@ const SimpleMap = props => {
 			{/* <div style={{ width: "100%" }}> */}
 			<Map
 				height={300}
-				width={-1}
+				width={"100%"}
 				state={{
 					center: [
 						props.selected_city.coord.lat,

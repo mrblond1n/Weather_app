@@ -69,6 +69,7 @@ section > .container:first-child {
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-around;
+	// wrapper with map
 	&--row {
 		flex-direction: row;
 		flex-wrap: wrap;
@@ -88,10 +89,10 @@ section > .container:first-child {
 			justify-content: center;
 			width: 600px;
 			@include phones {
-				width: 300px;
+				width: 250px;
 			}
 			@include laptops {
-				width: 450px;
+				width: 400px;
 			}
 		}
 	}
