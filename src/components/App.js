@@ -1,4 +1,8 @@
 import React, { PureComponent } from "react";
+import { BrowserRouter, Route } from "react-router-dom";
+import Notification, { notify } from "./Notification";
+import { CSSTransition } from "react-transition-group";
+
 import Header from "./Header/Header";
 import CurrentLocation from "./MainSection";
 import CitiesList from "./Content/SaveCityList";
@@ -6,15 +10,7 @@ import CityWeek from "./Content/CityWeek";
 import CityToday from "./Content/CityToday";
 import CityTomorrow from "./Content/CityTomorrow";
 import Footer from "./Footer";
-
-import { BrowserRouter, Route } from "react-router-dom";
-import Notification, { notify } from "./Notification";
-import { CSSTransition } from "react-transition-group";
-
-import "./style.css";
-import "./animation.css";
-import "normalize.css";
-import "./preloader.css";
+import Drawer from "./Header/Drawer";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -60,7 +56,8 @@ class App extends PureComponent {
 		listWeekWeather: [],
 		map: {
 			show_info: false
-		}
+		},
+		drawer: false
 	};
 
 	// FUNCTION
@@ -268,6 +265,10 @@ class App extends PureComponent {
 						selected_city={this.state.currentLocation}
 						getting_weather_input={this.getting_weather_input}
 					/>
+					{this.state.drawer && (
+						<Drawer selected_city={this.state.currentLocation} />
+					)}
+
 					<main className="main">
 						<section>
 							<div className="container conitaner--border">

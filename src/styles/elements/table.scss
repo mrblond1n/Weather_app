@@ -1,0 +1,17 @@
+.table {
+	text-align: left;
+	color: grey;
+	border-collapse: collapse;
+	& th {
+		border-bottom: 2px solid grey;
+		padding: 10px;
+	}
+	& td {
+		padding: 10px;
+		font-size: 14px;
+	}
+	& td svg {
+		width: 14px;
+		height: 14px;
+	}
+}

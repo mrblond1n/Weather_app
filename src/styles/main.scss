@@ -1,0 +1,29 @@
+$laptops: 768px;
+$phones: 420px;
+
+@mixin laptops {
+	@media screen and (max-width: $laptops) {
+		@content;
+	}
+}
+
+@mixin phones {
+	@media screen and (max-width: $phones) {
+		@content;
+	}
+}
+
+@import "./default.scss";
+
+@import "./mist/media.scss";
+@import "./mist/preloader.scss";
+@import "~/normalize.css";
+@import "./mist/animation.scss";
+
+@import "./elements/input.scss";
+@import "./elements/table.scss";
+@import "./elements/cards.scss";
+@import "./elements/currentCity.scss";
+@import "./elements/button.scss";
+@import "./elements/title.scss";
+@import "./elements/navigation.scss";

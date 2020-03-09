@@ -1,0 +1,41 @@
+.navigation {
+	display: flex;
+	align-items: center;
+	&__list {
+		display: flex;
+	}
+	&__item {
+		margin: 0px 10px;
+		cursor: pointer;
+		color: #767373;
+		text-transform: uppercase;
+	}
+	&__link {
+		text-decoration: none;
+		font-weight: bold;
+		opacity: 0.4;
+		color: black;
+		transition: 0.4s;
+	}
+	&__link:hover {
+		opacity: 1;
+	}
+	@include laptops {
+		display: none;
+	}
+}
+
+.navigation--left {
+	.navigation {
+		&__list {
+			flex-direction: column;
+			height: 100%;
+		}
+		&__item {
+			margin: 30px 30px;
+		}
+		&__link {
+			color: white;
+		}
+	}
+}

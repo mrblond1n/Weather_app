@@ -6,12 +6,12 @@ function CitiesList(props) {
 	return (
 		<div className="wrapper">
 			<h3 className="section__title">Saved cities</h3>
-			<ul className="cities__list">
+			<ul className="cities cities__list">
 				<TransitionGroup className="cities__list" defaultValue="dsd">
 					{props.listSaveCity.map((city, index) => (
 						<CSSTransition key={index} timeout={500} classNames="page">
 							<li
-								className="sities__item"
+								className="cities__item"
 								onClick={e => {
 									props.select_city(e, city.city);
 								}}

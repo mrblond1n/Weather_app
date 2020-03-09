@@ -1,0 +1,17 @@
+.button {
+	padding: 5px;
+	background: transparent;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	text-transform: uppercase;
+	transition: 0.4s;
+	font-weight: bold;
+	&:hover {
+		opacity: 0.9;
+	}
+	&--relative {
+		position: relative;
+		bottom: 30px;
+	}
+}
