@@ -91,6 +91,7 @@ class App extends PureComponent {
 						coord: data.coord
 					}
 				});
+				isLoadingOff();
 				// получаем данные на неделю
 				this.getting_weather_week();
 			})
@@ -187,6 +188,12 @@ class App extends PureComponent {
 			map: { show_info: !this.state.map.show_info }
 		});
 	};
+
+	drawer_switcher = () => {
+		this.setState({
+			drawer: !this.state.drawer
+		});
+	};
 	// remove_city = index => {
 	// 	let arr = this.state.listSaveCity;
 	// 	arr.splice(index, 1);
@@ -249,6 +256,14 @@ class App extends PureComponent {
 				/>
 			</svg>
 		);
+		const menu = (
+			<svg style={{ width: "24px", height: "24px" }} viewBox={"0 0 24 24"}>
+				<path
+					fill={"currentColor"}
+					d={"M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"}
+				/>
+			</svg>
+		);
 
 		return (
 			<BrowserRouter>
@@ -264,12 +279,21 @@ class App extends PureComponent {
 						getting_weather_week={this.getting_weather_week}
 						selected_city={this.state.currentLocation}
 						getting_weather_input={this.getting_weather_input}
+						menu_icon={menu}
+						drawer_switcher={this.drawer_switcher}
 					/>
 					{this.state.drawer && (
 						<Drawer selected_city={this.state.currentLocation} />
 					)}
 
-					<main className="main">
+					<main
+						className="main"
+						onClick={() => {
+							this.setState({
+								drawer: false
+							});
+						}}
+					>
 						<section>
 							<div className="container conitaner--border">
 								<CurrentLocation

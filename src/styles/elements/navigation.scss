@@ -26,16 +26,29 @@
 }
 
 .navigation--left {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 21;
+	background: rgba(0, 0, 0, 0.7);
+	height: 100%;
 	.navigation {
 		&__list {
 			flex-direction: column;
 			height: 100%;
 		}
 		&__item {
-			margin: 30px 30px;
+			margin: 25px 50px;
 		}
 		&__link {
 			color: white;
 		}
+	}
+}
+
+.button--drawer {
+	display: none;
+	@include laptops {
+		display: block;
 	}
 }
